@@ -1,0 +1,38 @@
+[
+    {
+        "ImBlue": [
+            {
+                "user_name": "J. Biden",
+                "user_time": "40.37",
+                "root_time": "1.17.41",
+                "current_placement": "1"
+            }
+        ],
+        "ip": "10.40.5.3",
+        "image": "/images/avatar.jpg"
+    },
+    {
+        "OpenSesame": [
+            {
+                "user_name": "D. Trump",
+                "user_time": "40.37",
+                "root_time": "1.17.41",
+                "current_placement": "1"
+            }
+        ],
+        "ip": "10.40.5.4",
+        "image": "/images/harry.jpg"
+    },
+    {
+        "If-It-Fits": [
+            {
+                "user_name": "J. Busch",
+                "user_time": "40.37",
+                "root_time": "1.17.41",
+                "current_placement": "1"
+            }
+        ],
+        "ip": "10.40.5.5",
+        "image": "/images/cat_box.jpg"
+    }
+]

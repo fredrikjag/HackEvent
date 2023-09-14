@@ -1,0 +1,61 @@
+.ServerHolder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ServerHolder h2, h3 {
+    margin: 2.5px;
+} 
+
+.avatar {
+    height: 150px;
+    width: 150px;
+    position: relative;
+
+    margin: 30px 0 0 0 ;
+}
+
+.avatar img {
+    border-radius: 9999px;
+    height: 100%;
+    position: relative;
+    width: 100%;
+    z-index: 2;
+}
+
+@keyframes cycle-colors {
+    0% { border-color: hsl(0, 100%, 50%); }
+    25% { border-color: hsl(90, 100%, 50%); }
+    50% { border-color: hsl(180, 100%, 50%); }
+    75% { border-color: hsl(270, 100%, 50%); }
+    100% { border-color: hsl(360, 100%, 50%); }
+}
+
+@keyframes pulse {
+    to {
+        opacity: 0;
+        transform: scale(1);
+    }
+}
+
+.avatar::before,
+.avatar::after {
+    animation: pulse 2s linear infinite;
+    border: #fff solid 8px;
+    border-radius: 9999px;
+    box-sizing: border-box;
+    content: ' ';
+    height: 140%;
+    left: -20%;
+    opacity: .6;
+    position: absolute;
+    top: -20%;
+    transform: scale(0.714);
+    width: 140%;
+    z-index: 1;
+}
+
+.avatar::after {
+    animation-delay: 1s;
+}

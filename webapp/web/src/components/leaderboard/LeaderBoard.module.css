@@ -1,0 +1,74 @@
+.LeaderBoard {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+  
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;  
+}
+
+.LeaderBoard::-webkit-scrollbar { 
+    width: 0;
+    height: 0;
+}
+
+.CurrentPlacement {
+    height: 35px;
+    width: 35px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9999px;
+    border: 2px solid #410D77;
+
+    font-weight: bold;
+
+    margin: 10px;
+}
+
+.Contestant {
+    display: flex;
+}
+
+.ContestantNameLogos p {
+    width: 220px;
+    overflow: hidden;
+    margin: 0 10px 0 0;
+    border-right: 1px solid #BEBDBD;
+    white-space: nowrap;
+}
+
+.ContestantNameLogos {
+    display: flex;
+    border-bottom: 1px solid #BEBDBD;
+}
+
+.ContestantNameLogos svg:first-of-type {
+    margin: 0 5px 0 0;
+}
+
+.ContestantTimes {
+    display: flex;
+    color: #7D7474;
+}
+
+.ContestantTimes p:first-of-type {
+    border-right: 1px solid #BEBDBD;
+    padding: 0 10px 0 0;
+    margin: 0 10px 0 0;
+}
+
+.Uncompleted {
+    max-width: 280px;
+    text-align: center;
+}
+
+.Uncompleted h4 {
+    color:black
+}
+
+
+

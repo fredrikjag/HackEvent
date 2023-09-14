@@ -1,0 +1,28 @@
+{
+    "BOX 1": [
+        {
+            "user": "HASH"
+        },
+        {
+            "root": "HASH"
+        }
+    ],
+
+    "BOX 2": [
+        {
+            "user": "HASH"
+        },
+        {
+            "root": "HASH"
+        }
+    ],
+    
+    "BOX 3": [
+        {
+            "user": "HASH"
+        },
+        {
+            "root": "HASH"
+        }
+    ]
+}
