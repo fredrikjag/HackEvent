@@ -1,5 +1,7 @@
 # File directories
 images/
+computers.json
+leaderboards.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
