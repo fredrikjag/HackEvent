@@ -6,23 +6,13 @@ import json
 
 app = Flask(__name__)
 
-class AppConfig:
-    def __init__(self):
-        self.event_duration = 0
-        self.event_started = False
-
+timer_end_time = None
+duration = 0
 
 #### Helpers
 
 def countdown_timer():
-    if AppConfig.event_started: 
-        for x in range(AppConfig.event_duration, 0, -1):
-            seconds = x % 60
-            minutes = int(x / 60) % 60
-            hours = int(x / 3600) 
-            print(f"{hours:02}:{minutes:02}:{seconds:02}")
-            time.sleep(1)
-
+    return
 
 def load_computers() -> dict:
     computers = json.load(open("./computers.json"))
@@ -37,10 +27,8 @@ def compare_flag(post_flag) -> bool | str:
                     return True, key
     return False
 
-
 def add_user_to_leadboard(user, current_time):
     return
-
 
 def validate_json(func):
     @wraps(func)
@@ -64,7 +52,19 @@ def get_leaderboard():
 
 @app.route('/api/event/timer', methods=['GET'])
 def get_timer():
-    return jsonify()
+    global timer_end_time
+
+    if timer_end_time is None:
+        return jsonify({'time_left': duration}), 200
+
+    current_time = time.time()
+    time_left = timer_end_time - current_time
+
+    if time_left <= 0:
+        return jsonify({'time_left': 0}), 200
+
+    return jsonify({'time_left': int(time_left)}), 200
+    
 
 @app.route('/images/<filename>', methods=['GET'])
 def get_image(filename):
@@ -87,27 +87,35 @@ def post_flag():
 @app.route('/api/event/duration', methods=['POST'])
 @validate_json
 def set_event_duration():
+    global duration
+
     data = request.get_json()
 
     if 'duration' in data:
-        AppConfig.event_duration = data['duration']
-        return jsonify({"message": "Eventduration set"}), 200
-    
+        duration = data['duration']
+        return jsonify({"message": "Duration set"}), 200
+
     return jsonify({"message": "Missing duration key"}), 200
 
 
 @app.route('/api/event/status', methods=['POST'])
 @validate_json
 def set_event_status():
+    global timer_end_time
+    global duration
+
     data = request.get_json()
 
     if 'status' in data:
         status = data['status']
         if status is True:
-            AppConfig.event_started = True
-            countdown_timer()
+            if duration <= 0:
+                return jsonify({"message": "Set event duration first"}), 200
+            timer_end_time = time.time() + duration
             return jsonify({"message": "Event started"}), 200
         elif status is False:
+            duration = int(timer_end_time - time.time())
+            timer_end_time = None
             return jsonify({"message": "Event stopped"}), 200
         else:
             return jsonify({"message": "Provide boolean value"}), 400
