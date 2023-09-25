@@ -6,29 +6,77 @@ import json
 
 app = Flask(__name__)
 
-timer_end_time = None
+timer_end_time = 0
 duration = 0
+computers = None
+leaderboards = None
 
 #### Helpers
 
-def countdown_timer():
-    return
-
-def load_computers() -> dict:
+def load_computers():
+    global computers
     computers = json.load(open("./computers.json"))
-    return computers
+
+def load_leaderboard():
+    global leaderboards
+    leaderboards = json.load(open("./leaderboards.json"))
+
+def write_leaderboard():
+    global leaderboards
+    leaderboards = json.dumps(open("./leaderboards.json"), indent=4)
 
 def compare_flag(post_flag) -> bool | str:
     for key, value in computers.items():
         for computer in value:
-            for item, flag in computer.items():
+            for identity, flag in computer.items():
                 if post_flag == flag:
-                    print(key)
-                    return True, key
+                    return True, key, identity
     return False
 
-def add_user_to_leadboard(user, current_time):
-    return
+def get_time_used():
+    seconds = duration % 60
+    minutes = int(duration / 60) % 60
+    hours = int(duration / 3600) 
+    return f"{hours:02}:{minutes:02}:{seconds:02}"
+
+def find_leaderboard(computer):
+    for leaderboard in leaderboards:
+        if computer in leaderboard:
+            return leaderboard
+    return None
+
+def find_contestant_entry(leaderboard, contestant):
+    for entry in leaderboard:
+        if entry.get("contestant_name") == contestant:
+            return entry
+    return None
+
+def add_user_to_leaderboard(contestant, computer, identity):
+    leaderboard = find_leaderboard(computer)
+    
+    if leaderboard is None:
+        return
+
+    contestant_entry = find_contestant_entry(leaderboard[computer], contestant)
+
+    if contestant_entry is not None:
+        if identity == "user" and "user_time" not in contestant_entry:
+            contestant_entry["user_time"] = get_time_used()
+            print(f"Updated user_time for {contestant} in {computer} leaderboard.")
+        elif identity == "root" and "root_time" not in contestant_entry:
+            contestant_entry["root_time"] = get_time_used() 
+        else:
+            return "Flag already registered"
+
+    new_entry = {"contestant_name": contestant}
+    if identity == "user":
+        new_entry["user_time"] = get_time_used()
+    elif identity == "root":
+        new_entry["root_time"] = get_time_used()
+
+    leaderboard[computer].append(new_entry)
+
+    print(leaderboards)
 
 def validate_json(func):
     @wraps(func)
@@ -79,7 +127,14 @@ def get_image(filename):
 @validate_json
 def post_flag():
     data = request.get_json()
-    if compare_flag(data['flag']):
+
+    contestant = data['user']
+    flag = data['flag']
+
+    is_matched, computer, identity = compare_flag(flag)
+
+    if is_matched:
+        add_user_to_leaderboard(contestant, computer, identity)
         return jsonify({"message": "Congrats"}), 200
     
     return jsonify({"message": "Ouch, incorrect flag"}), 200
@@ -114,7 +169,7 @@ def set_event_status():
             timer_end_time = time.time() + duration
             return jsonify({"message": "Event started"}), 200
         elif status is False:
-            duration = int(timer_end_time - time.time())
+            duration = timer_end_time - time.time()
             timer_end_time = None
             return jsonify({"message": "Event stopped"}), 200
         else:
@@ -125,8 +180,9 @@ def set_event_status():
 
 
 if __name__ == '__main__':
-    computers = load_computers()
-    app.run(port="", debug=True)
+    load_computers()
+    load_leaderboard()
+    app.run(port=5000, debug=True)
 
 
 
