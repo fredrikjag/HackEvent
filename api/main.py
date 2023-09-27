@@ -1,13 +1,14 @@
 from functools import wraps
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, Response, request, jsonify, send_from_directory
 import time
 import json
 
 
 app = Flask(__name__)
 
-timer_end_time = 0
 duration = 0
+timer_end_time = 0
+previous_seconds = None
 computers = None
 leaderboards = None
 
@@ -34,10 +35,16 @@ def compare_flag(post_flag) -> bool | str:
     return False
 
 def get_time_used():
-    seconds = duration % 60
-    minutes = int(duration / 60) % 60
-    hours = int(duration / 3600) 
-    return f"{hours:02}:{minutes:02}:{seconds:02}"
+    if timer_end_time != 0:
+        current_time = time.time()
+        time_left = timer_end_time - current_time
+        elapsed_time = int(time_left)
+
+        seconds = elapsed_time % 60
+        minutes = int(elapsed_time // 60) % 60
+        hours = int(elapsed_time // 3600) 
+        return f"{hours:02}:{minutes:02}:{seconds:02}"
+    return f"{0:02}:{0:02}:{0:02}"
 
 def find_leaderboard(computer):
     for leaderboard in leaderboards:
@@ -91,27 +98,36 @@ def validate_json(func):
         return func(*args, **kwargs)
     return wrapper
 
+#### SSE
+
+def live_timer_sse():
+    global previous_seconds
+
+    while previous_seconds != 0:
+        if timer_end_time != 0:
+            current_time = time.time()
+            time_left = timer_end_time - current_time
+            elapsed_time = int(time_left)
+
+            seconds = elapsed_time % 60
+            minutes = int(elapsed_time // 60) % 60
+            hours = int(elapsed_time // 3600) 
+
+            yield f"data:{hours:02}:{minutes:02}:{seconds:02}\n\n"
+            previous_seconds = elapsed_time
+            time.sleep(1)
+            continue
+        break
 
 #### Routes
 
 @app.route('/api/leaderboard', methods=['GET'])
 def get_leaderboard():
-    return jsonify()
+    return jsonify(leaderboards)
 
 @app.route('/api/event/timer', methods=['GET'])
 def get_timer():
-    global timer_end_time
-
-    if timer_end_time is None:
-        return jsonify({'time_left': duration}), 200
-
-    current_time = time.time()
-    time_left = timer_end_time - current_time
-
-    if time_left <= 0:
-        return jsonify({'time_left': 0}), 200
-
-    return jsonify({'time_left': int(time_left)}), 200
+    return Response(live_timer_sse(), content_type='text/event-stream')
     
 
 @app.route('/images/<filename>', methods=['GET'])
@@ -182,7 +198,7 @@ def set_event_status():
 if __name__ == '__main__':
     load_computers()
     load_leaderboard()
-    app.run(port=5000, debug=True)
+    app.run(port=5000, debug=True, threaded=True)
 
 
 
