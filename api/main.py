@@ -1,10 +1,13 @@
 from functools import wraps
 from flask import Flask, Response, request, jsonify, send_from_directory
+from flask_cors import CORS
 import time
 import json
 
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+
 
 duration = 0
 timer_end_time = 0
@@ -34,7 +37,7 @@ def compare_flag(post_flag) -> bool | str:
                     return True, key, identity
     return False
 
-def get_time_used():
+def get_time_left():
     if timer_end_time != 0:
         current_time = time.time()
         time_left = timer_end_time - current_time
@@ -44,7 +47,7 @@ def get_time_used():
         minutes = int(elapsed_time // 60) % 60
         hours = int(elapsed_time // 3600) 
         return f"{hours:02}:{minutes:02}:{seconds:02}"
-    return f"{0:02}:{0:02}:{0:02}"
+    return f'{0:02}:{0:02}:{0:02}'
 
 def find_leaderboard(computer):
     for leaderboard in leaderboards:
@@ -68,18 +71,18 @@ def add_user_to_leaderboard(contestant, computer, identity):
 
     if contestant_entry is not None:
         if identity == "user" and "user_time" not in contestant_entry:
-            contestant_entry["user_time"] = get_time_used()
+            contestant_entry["user_time"] = get_time_left()
             print(f"Updated user_time for {contestant} in {computer} leaderboard.")
         elif identity == "root" and "root_time" not in contestant_entry:
-            contestant_entry["root_time"] = get_time_used() 
+            contestant_entry["root_time"] = get_time_left() 
         else:
             return "Flag already registered"
 
     new_entry = {"contestant_name": contestant}
     if identity == "user":
-        new_entry["user_time"] = get_time_used()
+        new_entry["user_time"] = get_time_left()
     elif identity == "root":
-        new_entry["root_time"] = get_time_used()
+        new_entry["root_time"] = get_time_left()
 
     leaderboard[computer].append(new_entry)
 
@@ -113,9 +116,9 @@ def live_timer_sse():
             minutes = int(elapsed_time // 60) % 60
             hours = int(elapsed_time // 3600) 
 
-            yield f"data:{hours:02}:{minutes:02}:{seconds:02}\n\n"
+            yield f'data:{hours:02}:{minutes:02}:{seconds:02}\n\n'
             previous_seconds = elapsed_time
-            time.sleep(1)
+            time.sleep(0.2)
             continue
         break
 
