@@ -5,11 +5,9 @@ const EventInfo = () => {
   const [timeLeft, setTimeLeft] = useState<string>("00:00:00");
 
   useEffect(() => {
-    const eventSource = new EventSource("http://127.0.0.1:5000/api/event/timer");
+    const eventSource = new EventSource("http://127.0.0.1:5000/api/v1/t/event/timer");
     
-    // attaching a handler to receive message events
     eventSource.onmessage = (event) => {
-      // const data = JSON.parse(event.data);
       console.log(event.data);
       setTimeLeft(event.data);
     };

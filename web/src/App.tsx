@@ -92,42 +92,6 @@ function App() {
       user_time: '41.30',
       root_time: '2.40.12',
       current_placement: '14',
-    },
-    {
-      user_name: 'William Hall',
-      user_time: '27.18',
-      root_time: '1.20.36',
-      current_placement: '15',
-    },
-    {
-      user_name: 'Olivia King',
-      user_time: '32.05',
-      root_time: '1.55.47',
-      current_placement: '16',
-    },
-    {
-      user_name: 'Michael Adams',
-      user_time: '43.21',
-      root_time: '2.52.13',
-      current_placement: '17',
-    },
-    {
-      user_name: 'Ava Martinez',
-      user_time: '37.58',
-      root_time: '2.11.27',
-      current_placement: '18',
-    },
-    {
-      user_name: 'James Turner',
-      user_time: '31.09',
-      root_time: '1.36.25',
-      current_placement: '19',
-    },
-    {
-      user_name: 'Grace Allen',
-      user_time: '29.45',
-      root_time: '1.27.13',
-      current_placement: '20',
     }
   ];
 
@@ -142,9 +106,9 @@ function App() {
       <div className={Styles.Container}>
         <EventInfo />
         <div className={Styles.ServersContainer}>
-          <Server name='ImBlue' ip='10.40.5.3' imageurl='http://127.0.0.1:5000/images/avatar.jpg' />
-          <Server name='OpenSesame' ip='10.40.5.4' imageurl='http://127.0.0.1:5000/images/harry.jpg' />
-          <Server name='If-It-Fits' ip='10.40.5.5' imageurl='http://127.0.0.1:5000/images/cat_box.jpg' />
+          <Server name='ImBlue' ip='10.40.5.3' imageurl='http://127.0.0.1:5000/common/images/avatar.jpg' />
+          <Server name='OpenSesame' ip='10.40.5.4' imageurl='http://127.0.0.1:5000/common/images/harry.jpg' />
+          <Server name='If-It-Fits' ip='10.40.5.5' imageurl='http://127.0.0.1:5000/common/images/cat_box.jpg' />
         </div>
             
         <div className={Styles.LeaderBoardContainer}>

@@ -20,7 +20,7 @@
   min-width: 1200px;
   height: 100vh;
 
-  padding: 0 15% 40px 15%;
+  padding: 40px 15%;
   
   display: flex;
   flex-direction: column;
@@ -34,7 +34,7 @@
   display: flex;
   justify-content: space-evenly;
  
-  margin: 0 0 40px 0;
+  margin: 40px 0;
 }
 
 .LeaderBoardWrapper {
@@ -63,29 +63,29 @@
 }
 
 .LeaderBoardHead button {
-  background-color: #5D4AEC;
+  background-color: #8C4AEC;
   padding: 5px;
   color: white;
   cursor: pointer;
 
   border: none;
   border-radius: 10px;
-  border: 2px solid #5D4AEC;
+  border: 2px solid #8C4AEC;
 
   font-weight: 700;
 }
 
 .LeaderBoardHead button:hover {
   background-color: #EBEAFF;
-  color: #5D4AEC;
-  border: 2px solid #5D4AEC;
+  color: #8C4AEC;
+  border: 2px solid #8C4AEC;
 }
 
 .LeaderBoardHolder {
   height: calc(100% - 50px);
   padding: 20px;
 
-  background-color: white;
+  background-color: #dfdfdf;
 
   display: flex;
   justify-content: space-evenly;

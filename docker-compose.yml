@@ -1,0 +1,44 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_USER: hackevent
+      POSTGRES_PASSWORD: hackeventpassword
+      POSTGRES_DB: ctf
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - hackevent-api-db
+  api:
+    image: hackevent_api:0.1
+    ports:
+      - 443:5000
+    restart: always
+    depends_on:
+      - db
+    volumes:
+      - server_images:/api
+    networks:
+      - hackevent-api-db
+
+  # web:
+  #   image: postgres
+  #   restart: always
+  #   environment:
+  #     POSTGRES_USER: hackevent
+  #     POSTGRES_PASSWORD: hackeventpassword
+  #     POSTGRES_DB: ctf
+  #   volumes:
+  #       - hackevent:/var/lib/posgresql/data
+
+networks:
+  hackevent-api-db:
+    driver: bridge
+
+volumes:
+  pgdata:
+  server_images:

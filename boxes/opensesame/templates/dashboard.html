@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Management Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        #search-container {
+            text-align: center;
+            margin: 20px;
+        }
+
+        #search-container input{
+            width: 100%;
+            height: 30px;
+
+            border-radius: 5px;
+            border: 2px solid black;
+        }
+
+        #chart-container {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .client-card {
+            background-color: #fff;
+            padding: 10px;
+            margin: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <h2>Welcome {{ username }}</h2>
+    <h1>Device Management Dashboard</h1>
+
+    <div id="chart-container">
+        <canvas id="devicePieChart" width="400" height="400"></canvas>
+    </div>
+
+    <div id="search-container">
+        <input type="text" id="search-input" placeholder="Search clients...">
+    </div>
+
+    <div id="client-list">
+        <h2>Clients</h2>
+        <!-- Dynamically generate the list of clients from the random data -->
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Function to generate a random client name
+        function generateRandomClientName() {
+            const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789';
+            let name = 'Client-';
+            for (let i = 0; i < 8; i++) {
+                name += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return name;
+        }
+
+        // Sample data generation
+        function generateRandomData() {
+            const deviceTypes = ['Mac', 'PC', 'Linux'];
+
+            const data = [];
+            for (let i = 0; i < 100; i++) { // You can adjust the number of devices
+                const device = {
+                    clientName: generateRandomClientName(),
+                    deviceType: deviceTypes[Math.floor(Math.random() * deviceTypes.length)],
+                    ipAddress: generateRandomIP(),
+                };
+                data.push(device);
+            }
+
+            return data;
+        }
+
+        function generateRandomIP() {
+            return Array.from({ length: 4 }, () => Math.floor(Math.random() * 256)).join('.');
+        }
+
+        const randomData = generateRandomData();
+        const clientList = document.querySelector("#client-list");
+
+        // Function to update the displayed client list based on the search input
+        function updateClientList() {
+            const searchInput = document.querySelector("#search-input");
+            const searchText = searchInput.value.toLowerCase();
+            const filteredClients = randomData.filter(device => device.clientName.toLowerCase().includes(searchText));
+
+            // Clear the existing list
+            while (clientList.firstChild) {
+                clientList.removeChild(clientList.firstChild);
+            }
+
+            // Populate the list with the filtered clients
+            filteredClients.forEach(device => {
+                const clientCard = document.createElement("div");
+                clientCard.classList.add("client-card");
+                clientCard.innerHTML = `<strong>Client:</strong> ${device.clientName}<br><strong>OS-Type:</strong> ${device.deviceType}<br><strong>IP:</strong> ${device.ipAddress}`;
+                clientList.appendChild(clientCard);
+            });
+        }
+
+        // Add an event listener to the search input
+        const searchInput = document.querySelector("#search-input");
+        searchInput.addEventListener("input", updateClientList);
+
+        // Create a pie chart using Chart.js
+        const deviceTypes = ['Mac', 'PC', 'Linux'];
+        const deviceTypeCounts = deviceTypes.map(type =>
+            randomData.filter(device => device.deviceType === type).length
+        );
+
+        const ctx = document.getElementById('devicePieChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: deviceTypes,
+                datasets: [{
+                    data: deviceTypeCounts,
+                    backgroundColor: ['#ff5733', '#33ff57', '#5733ff'],
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                title: {
+                    display: true,
+                    text: 'Device Types',
+                },
+            },
+        });
+
+        // Initialize the client list with all clients
+        updateClientList();
+    </script>
+</body>
+</html>
