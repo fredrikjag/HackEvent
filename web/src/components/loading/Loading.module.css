@@ -1,0 +1,23 @@
+.LoadingContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgb(0, 0, 0, 0.4);
+    color: white;
+}
+
+
+/* Styling for the loading dots (dynamic content) */
+.LoadingDots {
+    animation: dot-animation 3s infinite;
+  }
+  
+  /* Keyframe animation for the loading dots */
+  @keyframes dot-animation {
+    0%, 80%, 100% { content: "."; }
+    40% { content: ".."; }
+    60% { content: "..."; }
+  }
+  

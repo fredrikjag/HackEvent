@@ -12,6 +12,11 @@ img, picture, video, canvas, svg {
 }
 
 
+p {
+  font-family: 'Space Mono', monospace;
+}
+
+
 h1, h2, h3, h4, h5, h6 {
   color: #FFF;
   font-family: 'Space Mono', monospace;

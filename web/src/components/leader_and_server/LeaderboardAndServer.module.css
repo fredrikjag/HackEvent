@@ -1,0 +1,59 @@
+.ServersContainer {
+    width: 100%;
+    height: 40em;
+  
+    display: flex;
+    justify-content: space-evenly;
+   
+    padding: 30px 60px 40px 60px;
+  }
+
+  .LeaderBoardContainer {
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+  
+    padding: 10px 40px 40px 40px;
+  
+    background-color: #222;
+    border-radius: 20px;
+  
+    overflow: clip;
+  }
+
+  .LeaderBoardHead {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+  }
+  
+  .LeaderBoardHead button {
+    background-color: #8C4AEC;
+    padding: 5px;
+    color: white;
+    cursor: pointer;
+  
+    border: none;
+    border-radius: 10px;
+    border: 2px solid #8C4AEC;
+  
+    font-weight: 700;
+  }
+  
+  .LeaderBoardHead button:hover {
+    background-color: #EBEAFF;
+    color: #8C4AEC;
+    border: 2px solid #8C4AEC;
+  }
+  
+  .LeaderBoardHolder {
+    height: calc(100% - 50px);
+    padding: 20px;
+  
+    background-color: #dfdfdf;
+  
+    display: flex;
+    justify-content: space-evenly;
+  
+    border-radius: 10px;
+  }

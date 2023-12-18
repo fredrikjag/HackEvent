@@ -4,14 +4,14 @@ import uuid
 import json
 
 
-class Contestant(db.Model):
-    __tablename__ = 'contestats'
+class ContestantClass(db.Model):
+    __tablename__ = 'contestants'
 
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    contestant_name =  db.Column(db.String, nullable=False)
+    contestant_name =  db.Column(db.String, nullable=False, unique=True)
     contestant_user_time = db.Column(db.String)
     contestant_root_time = db.Column(db.String)
-    server_id = db.Column(uuid, db.ForeignKey('server.id'))
+    server_id = db.Column(UUID, db.ForeignKey('servers.id'))
 
     def __init__(self, id, contestant_name, contestant_user_time, contestant_root_time, server_id):
         self.id = id

@@ -1,4 +1,11 @@
+.Ul {
+    width: 100%;
+    max-width: 400px;
+}
+
 .LeaderBoard {
+    width: 100%;
+    
     display: flex;
     flex-direction: column;
     align-items: center; 
@@ -6,6 +13,12 @@
     overflow-y: scroll;
     -ms-overflow-style: none;
     scrollbar-width: none;  
+
+    padding: 0 20px 0 0;
+}
+
+.LeaderBoard:last-child {
+    padding: 0;
 }
 
 .LeaderBoard li {
@@ -13,6 +26,7 @@
     border-radius: 10px;
     padding: 10px;
     margin: 10px 0 0 0;
+    list-style: none;
 }
 
 .LeaderBoard::-webkit-scrollbar { 
@@ -37,11 +51,16 @@
 }
 
 .Contestant {
-    display: flex;
+    display: grid;
+    grid-template-columns: 50px auto;
+    overflow: clip;
+}
+
+.ContestantWrapper {
+    width: 100%;
 }
 
 .ContestantNameLogos p {
-    width: 220px;
     overflow: hidden;
     margin: 0 10px 0 0;
     border-right: 1px solid #BEBDBD;
@@ -49,8 +68,13 @@
 }
 
 .ContestantNameLogos {
-    display: flex;
+    display: grid;
     border-bottom: 1px solid #BEBDBD;
+    grid-template-columns: auto 30px 30px;
+}
+
+.ContestantNameLogos:nth-child(n+2) {
+    max-width: 40px;
 }
 
 .ContestantNameLogos svg:first-of-type {
@@ -60,6 +84,10 @@
 .ContestantTimes {
     display: flex;
     color: #7D7474;
+}
+
+.ContestantTimes p {
+    white-space: nowrap;
 }
 
 .ContestantTimes p:first-of-type {
@@ -76,6 +104,3 @@
 .Uncompleted h4 {
     color:black
 }
-
-
-

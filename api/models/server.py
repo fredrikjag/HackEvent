@@ -4,7 +4,7 @@ import uuid
 import json
 
 
-class Server(db.Model):
+class ServerClass(db.Model):
     __tablename__ = 'servers'
 
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)

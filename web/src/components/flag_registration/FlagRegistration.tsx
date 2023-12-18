@@ -2,12 +2,12 @@ import { useState } from "react";
 import Styles from "./FlagRegistration.module.css";
 
 
-interface FlagRegistrationProps {
+interface IFlagRegistrationProps {
   handleClick: () => void;
 }
 
 
-const FlagRegistration = (props: FlagRegistrationProps) => {
+const FlagRegistration = (props: IFlagRegistrationProps) => {
   const [User, setUser] = useState('');
   const [Flag, setFlag] = useState('');
 

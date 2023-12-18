@@ -13,3 +13,8 @@ def validate_json(func):
             return jsonify({'error': 'Invalid JSON data'}), 400
         return func(*args, **kwargs)
     return wrapper
+
+
+
+if __name__ == "__main__":
+    None
